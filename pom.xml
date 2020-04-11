@@ -11,6 +11,7 @@
         <module>boot-thymeleaf</module>
         <module>boot-jdbc</module>
         <module>boot-mybatis</module>
+        <module>boot-mybatis-plus</module>
     </modules>
 
     <packaging>pom</packaging>
