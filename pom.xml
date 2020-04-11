@@ -10,6 +10,7 @@
     <modules>
         <module>boot-thymeleaf</module>
         <module>boot-jdbc</module>
+        <module>boot-mybatis</module>
     </modules>
 
     <packaging>pom</packaging>
