@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring MVC案例</title>
+    <!-- 新 Bootstrap4 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <!-- popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div th:replace="~{layout :: header}"></div>
+    <h1 th:text="${username}"></h1>
+    <h1 th:text="${#temporals.format(date, 'yyyy-MM-dd HH:mm:ss')}"></h1>
+    <h1 th:text="${#temporals.year(date)}"></h1>
+    <h1 th:text="${#temporals.dayOfWeek(date)}"></h1>
+    <h1 th:text="${#request.getAttribute('requestKey')}"></h1>
+    <h1 th:text="${#session.getAttribute('sessionKey')}"></h1>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${userList}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td th:switch="${user.gender}">
+                        <span th:case="0">女</span>
+                        <span th:case="1">男</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div th:insert="~{layout :: footer}"></div>
+</div>
+<script th:inline="javascript">
+    var username = [[${username}]];
+    console.log(username);
+</script>
+</body>
+</html>
