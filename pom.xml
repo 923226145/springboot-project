@@ -12,6 +12,7 @@
         <module>boot-jdbc</module>
         <module>boot-mybatis</module>
         <module>boot-mybatis-plus</module>
+        <module>boot-jpa</module>
     </modules>
 
     <packaging>pom</packaging>
