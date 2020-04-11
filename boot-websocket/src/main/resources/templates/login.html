@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>登录</title>
+    <!-- 新 Bootstrap4 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <!-- bootstrap.bundle.min.js 用于弹窗、提示、下拉菜单，包含了 popper.min.js -->
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <form class="form-signin">
+                <div class="text-center mb-4">
+                    <h1 class="h3 mb-3 font-weight-normal">登录</h1>
+                </div>
+
+                <div class="form-label-group">
+                    <input type="text" id="username" class="form-control" placeholder="用户名">
+                    <label for="username">账号</label>
+                </div>
+
+                <div class="form-label-group">
+                    <input type="password" id="password" class="form-control" placeholder="密码">
+                    <label for="password">密码</label>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block" type="button" id="loginBtn">登录</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $("#loginBtn").click(function () {
+        var username = $("#username").val();
+        var password = $("#password").val();
+        $.ajax({
+            url:"/doLogin",
+            method:'post',
+            dateType:"json",
+            data:{
+                "username":username,
+                "password":password,
+            },
+            success:function(result){
+                console.log(result);
+                console.log(result.code);
+                if (result.code == "000000") {
+                    window.location.href='/chat';
+                } else {
+                    alert(result.msg);
+                }
+            },
+            error: function(result) {
+                alert("登录失败");
+            }
+        });
+    });
+</script>
+</body>
+</html>

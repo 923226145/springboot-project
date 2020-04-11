@@ -13,6 +13,7 @@
         <module>boot-mybatis</module>
         <module>boot-mybatis-plus</module>
         <module>boot-jpa</module>
+        <module>boot-websocket</module>
     </modules>
 
     <packaging>pom</packaging>
