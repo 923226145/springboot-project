@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring MVC案例</title>
+    <!-- 新 Bootstrap4 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <!-- popper.min.js 用于弹窗、提示、下拉菜单 -->
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <!-- 最新的 Bootstrap4 核心 JavaScript 文件 -->
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <button type="button" class="btn btn-primary addUser">
+        新增用户
+    </button>
+    <!-- 模态框 -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- 模态框头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">新增用户</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <!-- 模态框主体 -->
+                <div class="modal-body">
+                    <form class="userForm">
+                        <input type="hidden" class="form-control" id="id" placeholder="">
+                        <div class="form-group">
+                            <label for="username">姓名</label>
+                            <input type="username" class="form-control" id="username" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="age">年龄</label>
+                            <input type="age" class="form-control" id="age" placeholder="">
+                        </div>
+                    </form>
+                </div>
+                <!-- 模态框底部 -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info saveUser">保存</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>姓名</th>
+                    <th>年龄</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${userList}">
+                        <td th:text="${user.id}"></td>
+                        <td th:text="${user.username}"></td>
+                        <td th:text="${user.age}"></td>
+                        <td>
+                            <button th:data="${user.id}" type="button" class="btn btn-danger deleteUser">删除</button>
+                            <button th:data="${user.id}" type="button" class="btn btn-info updateUser">编辑</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 点击新增按钮
+    $(".addUser").click(function () {
+        $('#myModal').modal('show');
+        $("#id").val("");
+        $("#username").val("");
+        $("#age").val("");
+    });
+    // 点击删除按钮
+    $(".deleteUser").click(function () {
+        var id = $(this).attr("data");
+        $.ajax({
+            url:"/api/UserController/user/" + id,
+            method:'delete',
+            dateType:"json",
+            success:function(result){
+                alert("删除成功, " + result);
+                location.reload();
+            },
+            error: function(result) {
+                alert("删除失败, " + result);
+            }
+        });
+    });
+    // 点击编辑按钮
+    $(".updateUser").click(function () {
+        var id = $(this).attr("data");
+        $.ajax({
+            url:"/api/UserController/user/" + id,
+            method:'get',
+            dateType:"json",
+            success:function(result){
+                $("#id").val(result.id);
+                $("#username").val(result.username);
+                $("#age").val(result.age);
+                $('#myModal').modal('show');
+            },
+            error: function(result) {
+                alert("获取用户失败, " + result);
+            }
+        });
+    });
+    // 点击保存按钮
+    $(".saveUser").click(function () {
+        var data = {
+           id: $("#id").val(),
+           username: $("#username").val(),
+           age: $("#age").val()
+        };
+        $.ajax({
+            url:"/api/UserController/user",
+            method:'post',
+            dataType: "json",
+            contentType: "application/json;charset=UTF-8",
+            data: JSON.stringify(data),
+            success:function(result){
+                alert("保存成功");
+                location.reload();
+            },
+            error: function(result) {
+                alert("保存失败, " + result)
+            }
+        });
+    });
+</script>
+</body>
+</html>
